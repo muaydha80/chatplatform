@@ -1,0 +1,1 @@
+java -cp  "dist/chatserver.jar;lib/*" -Djava.util.logging.config.file=C:/Users/muaydha/git/chatserver/logging.properties org.frankly.platform.chat.server.Server $1 $2 
