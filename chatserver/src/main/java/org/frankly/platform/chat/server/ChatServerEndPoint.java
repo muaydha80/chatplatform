@@ -53,7 +53,16 @@ public class ChatServerEndPoint {
 		publishMessage(session, message, room);
 
 	}
-
+	/**
+	 * This method is called when server receives a message
+	 * @param message
+	 * @param session
+	 */
+	@OnMessage
+	public void onMessage(InputStream in, Session session) {
+		logger.log(Level.INFO, "Close session: " + getClientAddress(session));
+		session.close();
+	}
 	/**
 	 * This method is called when websocket is closed
 	 * @param session
