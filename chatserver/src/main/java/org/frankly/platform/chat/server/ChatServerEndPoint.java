@@ -69,7 +69,7 @@ public class ChatServerEndPoint {
 	}
 
 	/**
-	 * 
+	 * Get client address
 	 * @param session
 	 * @return
 	 */
