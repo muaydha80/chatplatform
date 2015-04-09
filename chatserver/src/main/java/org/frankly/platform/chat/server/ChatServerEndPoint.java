@@ -35,10 +35,7 @@ public class ChatServerEndPoint {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("room") String room) {
 		session.getUserProperties().put("room", room);
-		String message = "Member joined: "
-				+ session.getUserProperties()
-						.get("javax.websocket.endpoint.remoteAddress")
-						.toString();
+		String message = getClientAddress(session) + " joined the party!";
 		logger.log(Level.INFO, message);
 		publishMessage(session, message, room);
 		chatRoomSessionsManager.addMemberToRoom(session, room);
@@ -53,7 +50,6 @@ public class ChatServerEndPoint {
 	public void onMessage(String message, Session session) {
 		String room = (String) session.getUserProperties().get("room");
 		logger.log(Level.INFO, "Received message: " + message);
-
 		publishMessage(session, message, room);
 
 	}
@@ -66,13 +62,21 @@ public class ChatServerEndPoint {
 	@OnClose
 	public void onClose(Session session, @PathParam("room") String room) {
 		chatRoomSessionsManager.removeMemberFromRoom(session, room);
-		String message = "Member left: "
-				+ session.getUserProperties()
-						.get("javax.websocket.endpoint.remoteAddress")
-						.toString();
+		String message = getClientAddress(session) + " passed out...";
 		logger.log(Level.INFO, message);
 		publishMessage(session, message, room);
 
+	}
+
+	/**
+	 * 
+	 * @param session
+	 * @return
+	 */
+	public String getClientAddress(Session session) {
+		return session.getUserProperties()
+						.get("javax.websocket.endpoint.remoteAddress")
+						.toString();
 	}
 
 	/**
