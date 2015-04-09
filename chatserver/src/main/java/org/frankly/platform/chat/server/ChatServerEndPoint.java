@@ -11,6 +11,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.frankly.platform.chat.server.messaging.ChatRoomSessionsManager;
 import org.frankly.platform.chat.server.messaging.MessageBroadcastEngine;
 
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
