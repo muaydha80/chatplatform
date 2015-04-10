@@ -2,8 +2,8 @@ package org.frankly.platform.chat.server.messaging;
 
 import org.frankly.platform.chat.server.ChatServer;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +41,7 @@ class BroadcastTask implements Runnable {
    */
   @Override
   public void run() {
-    List<Session> memberSessionList = chatRoomSessionsManager.getMemberSessionList(this.room);
+    Collection<Session> memberSessionList = chatRoomSessionsManager.getMemberSessionCollection(this.room);
 
     if(memberSessionList == null)
       return;

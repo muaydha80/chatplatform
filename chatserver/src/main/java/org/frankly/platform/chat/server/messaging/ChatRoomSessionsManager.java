@@ -1,9 +1,8 @@
 package org.frankly.platform.chat.server.messaging;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.websocket.Session;
 
@@ -16,8 +15,8 @@ import javax.websocket.Session;
 public class ChatRoomSessionsManager {
   private final static ChatRoomSessionsManager chatRoomSessionsManager =
       new ChatRoomSessionsManager();
-  private Map<String, List<Session>> roomsMemberSessionListMap =
-      new ConcurrentHashMap<String, List<Session>>();
+  private Map<String, Map<String, Session>> roomsMemberSessionListMap =
+      new ConcurrentHashMap<String, Map<String, Session>>();
 
   
   private ChatRoomSessionsManager() {
@@ -40,13 +39,13 @@ public class ChatRoomSessionsManager {
    * @param room
    */
   public void addMemberToRoom(Session session, String room) {
-    List<Session> memberSessionList = roomsMemberSessionListMap.get(room);
-    if (memberSessionList == null) {
-      memberSessionList = new CopyOnWriteArrayList<Session>();
-      roomsMemberSessionListMap.put(room, memberSessionList);
+    Map<String, Session> memberSessionsMap = roomsMemberSessionListMap.get(room);
+    if (memberSessionsMap == null) {
+    	memberSessionsMap = new ConcurrentHashMap<String, Session>();
+        roomsMemberSessionListMap.put(room, memberSessionsMap);
     }
 
-     memberSessionList.add(session);
+    memberSessionsMap.put(session.getId(), session);
   }
 
   /**
@@ -56,8 +55,8 @@ public class ChatRoomSessionsManager {
    * @param room
    */
   public void removeMemberFromRoom(Session session, String room) {
-    List<Session> memberSessionList = roomsMemberSessionListMap.get(room);
-     memberSessionList.remove(session);
+    Map<String, Session> memberSessionsMap = roomsMemberSessionListMap.get(room);
+    memberSessionsMap.remove(session.getId());
  
   }
 
@@ -67,8 +66,10 @@ public class ChatRoomSessionsManager {
    * @param room
    * @return list of sessions in a room
    */
-  public List<Session> getMemberSessionList(String room) {
-    return roomsMemberSessionListMap.get(room);
+  public Collection<Session> getMemberSessionCollection(String room) {
+    if(!roomsMemberSessionListMap.containsKey(room))
+    	return null;
+    return roomsMemberSessionListMap.get(room).values();
   }
 
 }
