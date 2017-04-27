@@ -14,7 +14,7 @@ public class ChatServer {
   /**
    * The entry point method to start a server at specific port. It uses Jetty container
    *
-   * @param port
+   * @param port number
    */
   public void startChatServer(int port) {
     // Set it to IPv4
