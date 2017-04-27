@@ -18,7 +18,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author muaydha
+ *Server Endpoint
+ * @author muaydha 
  *
  */
 @ServerEndpoint(value = "/{room}")
